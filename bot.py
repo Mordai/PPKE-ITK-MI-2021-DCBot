@@ -3,8 +3,11 @@
 import discord
 from discord.ext import commands
 import os
+from dotenv import load_dotenv
 
-TOKEN = os.environ.get('DC_TOKEN')
+load_dotenv()
+
+TOKEN = os.getenv("DC_TOKEN")
 
 bot = discord.Bot()
 
