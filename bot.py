@@ -1,6 +1,7 @@
 #Main Workflow
 
 import discord
+from discord.enums import ExpireBehavior
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
@@ -30,10 +31,14 @@ async def on_ready():
     try:
         message_local = "\n```Current HEAD → " + subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).decode('ascii').strip() + \
         "\nCurrent author → " + subprocess.check_output(['git', 'config', '--global', 'user.name']).decode('UTF-8') + "```"
+    except:
+        message_local = ""
+
+    try:
         message_heroku = "\n```Current HEAD → " + os.getenv("HEROKU_SLUG_COMMIT") + \
         "\nCurrent author → HEROKU deployment```"
     except:
-        print("Failed to create (one of the) initialization message(s)!")
+        message_heroku = ""
 
     
 
