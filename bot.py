@@ -1,13 +1,12 @@
 #Main Workflow
 
 import discord
-from discord.enums import ExpireBehavior
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
 from datetime import datetime
 import subprocess
-import getpass
+import pytz
 
 
 #Custom classes
@@ -16,8 +15,11 @@ import emojis
 #Load/run nessesary components/functions
 load_dotenv()
 
- #General variables
+#General variables
+tz = pytz.timezone('Europe/Budapest')
 now = datetime.now()
+
+
 MAIN_SERVER_GUILD = os.getenv("ITK_SERVER_ID")
 TOKEN = os.getenv("DC_TOKEN")
 
