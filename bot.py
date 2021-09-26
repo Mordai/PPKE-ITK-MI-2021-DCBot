@@ -21,8 +21,11 @@ repo = g.get_repo("Mordai/PPKE-ITK-MI-2021-DCBot")
 commits = repo.get_commits()
 last_commit = commits[0]
 
-local_repo = git.Repo(search_parent_directories=True)
-sha = local_repo.head.object.hexsha
+try:
+    local_repo = git.Repo(search_parent_directories=True)
+    sha = local_repo.head.object.hexsha
+except:
+    sha = ""
 
 #General variables
 tz = pytz.timezone('Europe/Budapest')
