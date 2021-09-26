@@ -62,7 +62,7 @@ async def on_ready():
         message_heroku = "\n```Current HEAD → " + os.getenv("HEROKU_SLUG_COMMIT") + \
         "\nCurrent author → HEROKU deployment" + \
         "\nCommit name → " + github_messages[0] + \
-        "\nCommit desc → " + github_desc
+        "\nCommit desc → " + github_desc + \
         "\nHeroku slug desc → " + os.getenv("HEROKU_SLUG_DESCRIPTION") + "```"
 
     except:
