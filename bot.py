@@ -38,7 +38,8 @@ async def on_ready():
 
     try:
         message_heroku = "\n```Current HEAD → " + os.getenv("HEROKU_SLUG_COMMIT") + \
-        "\nCurrent author → HEROKU deployment```"
+        "\nCurrent author → HEROKU deployment" + \
+        "\nCommit desc → " + os.getenv("HEROKU_SLUG_DESCRIPTION")
     except:
         message_heroku = ""
 
