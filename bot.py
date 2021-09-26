@@ -40,9 +40,8 @@ async def on_ready():
     except:
         message_heroku = ""
 
-    
 
-    await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_local)
+    await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_heroku)
 
 
 bot.run(TOKEN)
