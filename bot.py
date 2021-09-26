@@ -17,7 +17,7 @@ load_dotenv()
 
 #General variables
 tz = pytz.timezone('Europe/Budapest')
-now = datetime.now()
+now = datetime.now(tz)
 
 
 MAIN_SERVER_GUILD = os.getenv("ITK_SERVER_ID")
