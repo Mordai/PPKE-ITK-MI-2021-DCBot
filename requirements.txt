@@ -1,3 +1,5 @@
 git+https://github.com/Pycord-Development/pycord
 pytz==2021.1
 python-dotenv==0.19.0
+PyGithub==1.55
+GitPython==3.1.24
