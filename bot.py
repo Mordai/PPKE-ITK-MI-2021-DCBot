@@ -1,6 +1,7 @@
 #Main Workflow
 
 import discord
+from discord import message
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
@@ -16,19 +17,24 @@ import emojis
 
 #Load/run nessesary components/functions
 load_dotenv()
+
+#Getting latest GitHub commit
 g = Github(os.getenv("GITHUB_TOKEN"))
 repo = g.get_repo("Mordai/PPKE-ITK-MI-2021-DCBot")
 commits = repo.get_commits()
-last_commit = commits[0]
-messages = last_commit.commit.message.split('\n\n')
-print(messages[0])
-print("\n".join(messages[1:]))
+github_last_commit = commits[0]
+github_messages = github_last_commit.commit.message.split('\n\n')
+github_desc = "".join(github_messages[1:]) if len(github_messages[1:]) > 0 else "No desc given"
 
+#Getting latest local git commit
 try:
     local_repo = git.Repo(search_parent_directories=True)
+    headcommit = local_repo.head.commit
     sha = local_repo.head.object.hexsha
+    local_commiter = headcommit.committer.name
 except:
     sha = ""
+    local_commiter = ""
 
 #General variables
 tz = pytz.timezone('Europe/Budapest')
@@ -48,22 +54,21 @@ async def on_ready():
     message_log_start = f"{emojis.Emojis.StatusEmojis.sparkle} `Bot started: " + now.strftime("%Y-%m-%d %H:%M:%S") + "`"
     try:
         message_local = "\n```Current HEAD → " + sha + \
-        "\nCurrent author → " + subprocess.check_output(['git', 'config', '--global', 'user.name']).decode('UTF-8') + "```"
+        "\nCurrent author → " + local_commiter + "```"
     except:
         message_local = ""
 
     try:
         message_heroku = "\n```Current HEAD → " + os.getenv("HEROKU_SLUG_COMMIT") + \
         "\nCurrent author → HEROKU deployment" + \
-        "\nCommit name → " + last_commit.commit.message.split('\n\n')[0] + \
-        "\nCommit desc → "  + last_commit.commit.message.split('\n\n')[1:] + \
+        "\nCommit name → " + github_messages[0] + \
+        "\nCommit desc → " + github_desc
         "\nHeroku slug desc → " + os.getenv("HEROKU_SLUG_DESCRIPTION") + "```"
 
     except:
         message_heroku = ""
 
-    #message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else 
-    await bot.CH_bot_log.send(message_log_start + message_heroku)
+    await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_heroku)
 
 
-#bot.run(TOKEN)
+bot.run(TOKEN)
