@@ -20,6 +20,9 @@ g = Github(os.getenv("GITHUB_TOKEN"))
 repo = g.get_repo("Mordai/PPKE-ITK-MI-2021-DCBot")
 commits = repo.get_commits()
 last_commit = commits[0]
+messages = last_commit.commit.message.split('\n\n')
+print(messages[0])
+print("\n".join(messages[1:]))
 
 try:
     local_repo = git.Repo(search_parent_directories=True)
@@ -59,8 +62,8 @@ async def on_ready():
     except:
         message_heroku = ""
 
+    #message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else 
+    await bot.CH_bot_log.send(message_log_start + message_heroku)
 
-    await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_heroku)
 
-
-bot.run(TOKEN)
+#bot.run(TOKEN)
