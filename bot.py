@@ -61,14 +61,14 @@ async def on_ready():
     try:
         message_heroku = "\n```Current HEAD → " + os.getenv("HEROKU_SLUG_COMMIT") + \
         "\nCurrent author → HEROKU (deployment)" + \
-        "\nCommit name:" + github_messages[0] + \
-        "\nCommit desc:" + github_desc + "```"
+        "\nCommit name: " + github_messages[0] + \
+        "\nCommit desc: " + github_desc + "```"
 
     except:
         message_heroku = ""
 
     await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_heroku)
-    
+
 @bot.event 
 async def on_member_join(member):
   role = bot.get_role(892034791321518151)
