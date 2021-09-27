@@ -68,6 +68,10 @@ async def on_ready():
         message_heroku = ""
 
     await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_heroku)
-
+    
+@bot.event 
+async def on_member_join(member):
+  role = bot.get_role(892034791321518151)
+  await member.add_roles(role)
 
 bot.run(TOKEN)
