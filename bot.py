@@ -44,7 +44,9 @@ now = datetime.now(tz)
 MAIN_SERVER_GUILD = os.getenv("ITK_SERVER_ID")
 TOKEN = os.getenv("DC_TOKEN")
 
-bot = discord.Bot()
+intents = discord.Intents.all()
+intents.members = True
+bot = discord.Bot(intents = intents)
 
 
 @bot.event
@@ -66,11 +68,13 @@ async def on_ready():
 
     except:
         message_heroku = ""
+        
     await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_heroku)
 
 @bot.event 
 async def on_member_join(member):
     role = member.guild.get_role(892034791321518151)
+    print(role.name)
     await member.add_roles(role)
 
 bot.run(TOKEN)
