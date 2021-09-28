@@ -51,7 +51,6 @@ bot = discord.Bot()
 async def on_ready():
     print("Ready to go!")
     bot.CH_bot_log = bot.get_channel(891715602442510386)
-    bot.ROLE_newcomer = bot.get_role(892034791321518151)
     message_log_start = f"{emojis.Emojis.StatusEmojis.sparkle} `Bot started: " + now.strftime("%Y-%m-%d %H:%M:%S") + "`"
     try:
         message_local = "\n```Current HEAD → " + sha + \
@@ -67,11 +66,11 @@ async def on_ready():
 
     except:
         message_heroku = ""
-
     await bot.CH_bot_log.send(message_log_start + message_local if os.getenv("HEROKU_DEPLOYMENT") == "NO" else message_log_start + message_heroku)
 
 @bot.event 
-async def on_member_join(member): 
-  await member.add_roles(bot.ROLE_newcomer)
+async def on_member_join(member):
+    role = member.guild.get_role(892034791321518151)
+    await member.add_roles(role)
 
 bot.run(TOKEN)
